@@ -27,15 +27,28 @@ class MapsRoutes {
     TravelMode travelMode,
     int routeWidth,
   ) async {
-    late PolylinePoints routePoints = PolylinePoints();
+    late PolylinePoints routePoints = PolylinePoints(
+      apiKey: googleApiKey,
+    );
     List<LatLng> routeCoordinates = [];
 
     /// If the coordinates are not null, it creates a route between the two points
     PolylineResult result = await routePoints.getRouteBetweenCoordinates(
-      googleApiKey,
-      PointLatLng(startLat, startLon),
-      PointLatLng(endLat, endLon),
-      travelMode: travelMode,
+      // googleApiKey,
+      // PointLatLng(startLat, startLon),
+      // PointLatLng(endLat, endLon),
+      // travelMode: travelMode,
+
+      request: PolylineRequest(
+        origin: PointLatLng(startLat, startLon),
+        destination: PointLatLng(endLat, endLon),
+        mode: travelMode,
+        wayPoints: [],
+        optimizeWaypoints: false,
+        alternatives: false,
+        avoidFeatures: [],
+        timeoutDuration: const Duration(seconds: 10),
+    ),
     );
 
     /// Adds coordinates to the route coordinates list
